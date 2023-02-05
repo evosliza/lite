@@ -1,0 +1,16 @@
+{
+  "name": "admin-data-hooks",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/admin/data-hooks/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/admin/data-hooks/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

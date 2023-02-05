@@ -15,9 +15,9 @@ type Answer {
 }
 
 model Quiz {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   title       String
   description String?
@@ -28,9 +28,9 @@ model Quiz {
 }
 
 model Question {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   quizId String @db.ObjectId
   quiz   Quiz   @relation("QuizQuestions", fields: [quizId], references: [id])
