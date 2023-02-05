@@ -3,15 +3,20 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:website": "nx serve website"
+    "start:website": "nx serve website",
+    "generate:prisma-assets": "nx generate-assets data-prisma",
+    "postinstall": "yarn generate:prisma-assets"
   },
   "private": true,
   "dependencies": {
     "@nrwl/next": "15.6.3",
+    "@prisma/client": "^4.9.0",
     "next": "13.1.1",
+    "prisma": "^4.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "typegraphql-prisma": "^0.23.4"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
@@ -22,6 +27,7 @@
     "@nrwl/linter": "15.6.3",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/react": "15.6.3",
+    "@nrwl/rollup": "15.6.3",
     "@nrwl/workspace": "15.6.3",
     "@testing-library/react": "13.4.0",
     "@types/jest": "28.1.1",

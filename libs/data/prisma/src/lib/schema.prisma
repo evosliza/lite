@@ -1,0 +1,44 @@
+// Prisma configuration
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider           = "typegraphql-prisma"
+  output             = "./generated/type-graphql"
+  emitTranspiledCode = true
+  emitIdAsIDType     = true
+}
+
+model Quiz {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title     String
+
+  questions Question[] @relation("QuizQuestions")
+}
+
+model Question {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  quizId    String @db.ObjectId
+  quiz      Quiz   @relation("QuizQuestions", fields: [quizId], references: [id])
+
+  text      String
+  answers   Answer[]
+}
+
+type Answer {
+  id        String
+  text      String
+  score     Int
+}
