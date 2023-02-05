@@ -2,7 +2,9 @@
   "name": "lite",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:website": "nx serve website"
+  },
   "private": true,
   "dependencies": {
     "@nrwl/next": "15.6.3",
