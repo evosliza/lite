@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@lite/data-prisma": ["libs/data/prisma/src/index.ts"]
+      "@lite/data-prisma": ["libs/data/prisma/src/index.ts"],
+      "@lite/shared-ui": ["libs/shared/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

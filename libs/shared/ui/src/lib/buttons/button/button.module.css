@@ -1,0 +1,3 @@
+.button {
+  @apply border-0 bg-blue-600 text-white rounded-full w-12 h-12 duration-300 hover:opacity-75;
+}
