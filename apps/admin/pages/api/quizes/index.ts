@@ -1,12 +1,14 @@
 import { prismaClient } from "@lite/data-prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import cors from "cors";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     const quizes = await prismaClient.quiz.findMany();
-    res.status(200).json({
+
+    cors()(req, res, () => res.status(200).json({
       data: quizes,
-    });
+    }));
 
     return;
   }

@@ -5,7 +5,7 @@ export const getQuizListKey = () => ['quizList'];
 
 export const useQuizList = () => {
   const { data, ...rest } = useQuery(getQuizListKey(), async () => {
-    const response = await fetch(`${apiUrl}/api/quizes`);
+    const response = await fetch(`${apiUrl}/quizes`);
     const data = await response.json();
 
     return data.data;

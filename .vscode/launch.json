@@ -12,6 +12,15 @@
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["start:website"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "start:admin",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["start:admin"]
     }
   ]
 }

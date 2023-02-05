@@ -1,5 +1,6 @@
 import { prismaClient } from "@lite/data-prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import cors from "cors";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
@@ -13,9 +14,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    res.status(200).json({
+    cors()(req, res, () => res.status(200).json({
       data: questions,
-    });
+    }));
 
     return;
   }
