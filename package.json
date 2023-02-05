@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start:website": "nx serve website",
+    "start:admin": "nx serve admin",
     "generate:prisma-assets": "nx generate-assets data-prisma",
     "postinstall": "yarn generate:prisma-assets"
   },
@@ -16,8 +17,7 @@
     "prisma": "^4.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tslib": "^2.3.0",
-    "typegraphql-prisma": "^0.23.4"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",

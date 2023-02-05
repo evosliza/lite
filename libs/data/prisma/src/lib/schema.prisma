@@ -8,11 +8,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator typegraphql {
-  provider           = "typegraphql-prisma"
-  output             = "./generated/type-graphql"
-  emitTranspiledCode = true
-  emitIdAsIDType     = true
+type Answer {
+  id        String
+  text      String
+  score     Int
 }
 
 model Quiz {
@@ -20,9 +19,12 @@ model Quiz {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  title     String
+  title       String
+  description String?
 
   questions Question[] @relation("QuizQuestions")
+
+  @@map("Quizes")
 }
 
 model Question {
@@ -30,15 +32,13 @@ model Question {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  quizId    String @db.ObjectId
-  quiz      Quiz   @relation("QuizQuestions", fields: [quizId], references: [id])
+  quizId String @db.ObjectId
+  quiz   Quiz   @relation("QuizQuestions", fields: [quizId], references: [id])
 
-  text      String
+  question    String
+  description String?
+
   answers   Answer[]
-}
 
-type Answer {
-  id        String
-  text      String
-  score     Int
+  @@map("Questions")
 }
