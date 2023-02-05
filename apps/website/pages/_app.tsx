@@ -3,9 +3,9 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
+function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Head>
