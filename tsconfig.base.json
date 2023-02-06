@@ -18,6 +18,7 @@
       "@lite/admin-data-hooks": ["libs/admin/data-hooks/src/index.ts"],
       "@lite/data-prisma": ["libs/data/prisma/src/index.ts"],
       "@lite/shared-ui": ["libs/shared/ui/src/index.ts"],
+      "@lite/website-components": ["libs/website/components/src/index.ts"],
       "@lite/website-data-hooks": ["libs/website/data-hooks/src/index.ts"]
     }
   },

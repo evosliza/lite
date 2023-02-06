@@ -1,3 +1,3 @@
-export * from './lib/buttons/button/button';
-export * from './lib/card/card';
-export * from './lib/inputs/input/input';
+export * from './lib/buttons';
+export * from './lib/cards';
+export * from './lib/inputs';

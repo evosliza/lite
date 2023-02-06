@@ -8,6 +8,8 @@ export const useQuestionList = (quizId: string) => {
     const data = await response.json();
 
     return data.data;
+  }, {
+    enabled: !!quizId,
   });
 
   return {

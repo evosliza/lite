@@ -1,0 +1,15 @@
+.section {
+  @apply bg-gray-800 py-6 border-t-2 border-gray-700 border-dotted w-full absolute bottom-0;
+}
+
+.container {
+  @apply flex flex-wrap w-full text-center justify-center;
+}
+
+.text {
+ @apply text-white mr-1;
+}
+
+.link {
+  @apply text-blue-200 duration-300 hover:text-blue-600;
+}

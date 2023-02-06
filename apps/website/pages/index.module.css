@@ -1,1 +1,15 @@
+.container {
+  @apply h-full mx-auto;
+}
 
+.quiz-list {
+  @apply flex flex-wrap justify-center md:justify-start;
+}
+
+.empty-list {
+  @apply flex flex-col items-center justify-center h-full m-5;
+}
+
+.empty-list-text {
+  @apply text-gray-800 font-semibold text-lg block mb-3 uppercase;
+}

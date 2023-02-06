@@ -1,7 +1,8 @@
 import { FC } from 'react';
+import { Button } from '@lite/shared-ui';
+
 import styles from './card.module.css';
 
-/* eslint-disable-next-line */
 export interface CardProps {
   title: string;
   description: string;
@@ -10,16 +11,18 @@ export interface CardProps {
 
 export const Card: FC<CardProps> = ({ title, description, href }) => {
   return (
-    <div className={styles['card-container']}>
-      <div className={styles['card-header']}>
+    <div className={styles['container']}>
+      <div className={styles['header']}>
         <h2>{title}</h2>
       </div>
-      <div className={styles['card-content']}>
+      <div className={styles['content']}>
         <p>{description}</p>
       </div>
 
-      <div className={styles['card-footer']}>
-        <a href={href}>Get It</a>
+      <div className={styles['footer']}>
+        <Button>
+          <a href={href}>Get It</a>
+        </Button>
       </div>
     </div>
   );
