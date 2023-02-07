@@ -3,5 +3,17 @@
 }
 
 .button[disabled] {
-  @apply bg-slate-400;
+  @apply bg-slate-300 pointer-events-none;
+}
+
+.variant-naked {
+  @apply p-2 bg-transparent text-gray-600;
+}
+
+.variant-naked[disabled] {
+  @apply bg-transparent;
+}
+
+.size-small {
+  @apply text-sm font-thin;
 }

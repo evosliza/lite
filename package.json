@@ -16,11 +16,13 @@
     "@tanstack/react-query": "^4.24.4",
     "clsx": "^1.2.1",
     "cors": "^2.8.5",
+    "light-uid": "^1.1.0",
     "next": "13.1.1",
     "postcss-import": "^15.1.0",
     "prisma": "^4.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

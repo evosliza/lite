@@ -1,0 +1,7 @@
+.answer-row{
+  @apply flex flex-col w-full gap-3;
+}
+
+.score-row {
+  @apply flex w-full gap-3;
+}

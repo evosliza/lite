@@ -63,7 +63,7 @@ export const QuizPage: FC = () => {
         <div className={styles['quiz-footer']}>
           <div className={styles['footer-actions']}>
             <Button
-              className={styles['small']}
+              size="small"
               onClick={() => setShowForm(true)}
               disabled={showForm}
             >

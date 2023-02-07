@@ -4,12 +4,26 @@ import clsx from 'clsx';
 import styles from './button.module.css';
 
 /* eslint-disable-next-line */
-export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {}
+export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
+  variant?: 'primary' | 'naked';
+  size?: 'primary' | 'small';
+}
 
-export const Button: FC<ButtonProps> = ({ children, className, ...otherProps }) => {
+export const Button: FC<ButtonProps> = ({
+  children,
+  className,
+  variant = 'primary',
+  size = 'primary',
+  ...otherProps
+}) => {
   return (
     <button
-      className={clsx(styles['button'], className)}
+      className={clsx(
+        styles['button'],
+        styles[`variant-${variant}`],
+        styles[`size-${size}`],
+        className
+      )}
       type="button"
       {...otherProps}
     >
