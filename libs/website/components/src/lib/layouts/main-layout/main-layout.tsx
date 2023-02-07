@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import { Footer } from "@lite/website-components";
+import { Footer } from "../../elements";
 
 import styles from "./main-layout.module.css";
 

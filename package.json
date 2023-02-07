@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.2.1",
     "@heroicons/react": "^2.0.14",
     "@nrwl/next": "15.6.3",
     "@prisma/client": "^4.9.0",

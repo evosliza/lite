@@ -1,4 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
+
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
@@ -11,9 +13,12 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to website!</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
+
+      <UserProvider>
+        <main className="app">
+          <Component {...pageProps} />
+        </main>
+      </UserProvider>
     </QueryClientProvider>
   );
 }
