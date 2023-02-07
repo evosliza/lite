@@ -1,0 +1,3 @@
+.quiz-actions {
+  @apply flex justify-end items-center gap-1;
+}

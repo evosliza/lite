@@ -1,19 +1,15 @@
 import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  PlusIcon,
-} from '@heroicons/react/24/solid';
 
 import { useCreateQuestion, useQuestionList } from '@lite/website-data-hooks';
 
 import styles from './quiz.module.css';
-import { Button } from '@lite/shared-ui';
+import { Card, CardHeader } from '@lite/shared-ui';
 import {
   CreateQuestionCard,
   MainLayout,
   QuestionCard,
+  QuestionsActions,
 } from '@lite/website-components';
 
 export const QuizPage: FC = () => {
@@ -63,11 +59,9 @@ export const QuizPage: FC = () => {
               />
             ))
           ) : (
-            <div className={styles['empty-list']}>
-              <p className={styles['empty-list-text']}>
-                There are no questions yet
-              </p>
-            </div>
+            <Card>
+              <CardHeader>There are no questions yet</CardHeader>
+            </Card>
           )}
 
           {showForm && (
@@ -79,30 +73,13 @@ export const QuizPage: FC = () => {
           )}
         </div>
 
-        <div className={styles['quiz-actions-container']}>
-          <div className={styles['quiz-actions']}>
-            <Button
-              size="small"
-              onClick={() => setShowForm(true)}
-              disabled={showForm}
-            >
-              <PlusIcon className="h-4" />
-              <span>Add Question</span>
-            </Button>
-            <Button
-              onClick={() => setActivIndex(activIndex - 1)}
-              disabled={showForm || activIndex === 0}
-            >
-              <ArrowUpIcon className="h-4" />
-            </Button>
-            <Button
-              onClick={() => setActivIndex(activIndex + 1)}
-              disabled={showForm || activIndex === questionList.length - 1}
-            >
-              <ArrowDownIcon className="h-4" />
-            </Button>
-          </div>
-        </div>
+        <QuestionsActions
+          showForm={showForm}
+          setShowForm={setShowForm}
+          activIndex={activIndex}
+          setActivIndex={setActivIndex}
+          questionListLength={questionList.length}
+        />
       </div>
     </MainLayout>
   );

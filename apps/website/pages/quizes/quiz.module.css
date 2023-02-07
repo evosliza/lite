@@ -5,7 +5,3 @@
 .questions-container {
   @apply h-0 flex-1 w-full overflow-hidden;
 }
-
-.quiz-actions {
-  @apply flex justify-end items-center gap-1;
-}
