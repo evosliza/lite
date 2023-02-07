@@ -10,7 +10,7 @@ export const Footer: FC = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section className={styles['section']}>
+    <footer className={styles['footer']}>
       <div className={styles['container']}>
         {!user && <p className={styles['text']}>To Add Quizes</p>}
 
@@ -24,6 +24,6 @@ export const Footer: FC = () => {
           </a>
         )}
       </div>
-    </section>
+    </footer>
   );
 };

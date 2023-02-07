@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   ArrowDownIcon,
@@ -6,7 +6,7 @@ import {
   PlusIcon,
 } from '@heroicons/react/24/solid';
 
-import { useQuestionList } from '@lite/website-data-hooks';
+import { useCreateQuestion, useQuestionList } from '@lite/website-data-hooks';
 
 import styles from './quiz.module.css';
 import { Button } from '@lite/shared-ui';
@@ -21,8 +21,21 @@ export const QuizPage: FC = () => {
   const { quizId } = router.query as { quizId: string };
 
   const { questionList, isLoading } = useQuestionList(quizId);
+  const {
+    createQuestion,
+    isLoading: isSavingQuestion,
+    isSuccess,
+  } = useCreateQuestion();
 
   const [showForm, setShowForm] = useState(false);
+  const [activIndex, setActivIndex] = useState(0);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowForm(false);
+      setActivIndex(questionList.length - 1);
+    }
+  }, [isSuccess, questionList]);
 
   if (isLoading) {
     return <div className={styles['loading']}>Loading...</div>;
@@ -33,22 +46,20 @@ export const QuizPage: FC = () => {
   };
 
   const handleSave = (ev) => {
-    setShowForm(false);
-    console.log('saved', ev);
+    createQuestion({ quizId, questionData: ev });
   };
 
   return (
     <MainLayout>
       <div className={styles['page-container']}>
         <div className={styles['questions-container']}>
-          {showForm ? (
-            <CreateQuestionCard onCancel={handleCancel} onSave={handleSave} />
-          ) : questionList.length ? (
+          {questionList.length ? (
             questionList.map((question, index) => (
               <QuestionCard
+                key={question.id}
                 question={question}
                 index={index}
-                key={question.id}
+                isActive={!showForm && activIndex === index}
               />
             ))
           ) : (
@@ -58,10 +69,18 @@ export const QuizPage: FC = () => {
               </p>
             </div>
           )}
+
+          {showForm && (
+            <CreateQuestionCard
+              onCancel={handleCancel}
+              onSave={handleSave}
+              isLoading={isSavingQuestion}
+            />
+          )}
         </div>
 
-        <div className={styles['quiz-footer']}>
-          <div className={styles['footer-actions']}>
+        <div className={styles['quiz-actions-container']}>
+          <div className={styles['quiz-actions']}>
             <Button
               size="small"
               onClick={() => setShowForm(true)}
@@ -70,10 +89,16 @@ export const QuizPage: FC = () => {
               <PlusIcon className="h-4" />
               <span>Add Question</span>
             </Button>
-            <Button>
+            <Button
+              onClick={() => setActivIndex(activIndex - 1)}
+              disabled={showForm || activIndex === 0}
+            >
               <ArrowUpIcon className="h-4" />
             </Button>
-            <Button>
+            <Button
+              onClick={() => setActivIndex(activIndex + 1)}
+              disabled={showForm || activIndex === questionList.length - 1}
+            >
               <ArrowDownIcon className="h-4" />
             </Button>
           </div>

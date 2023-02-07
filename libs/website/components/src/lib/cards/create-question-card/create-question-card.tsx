@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import genUid from 'light-uid';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
@@ -18,12 +18,20 @@ import styles from './create-question-card.module.css';
 interface CreateQuestionCardProps {
   onSave: (data: Partial<Question>) => void;
   onCancel: () => void;
+  isLoading?: boolean;
 }
 
 export const CreateQuestionCard: FC<CreateQuestionCardProps> = ({
   onCancel,
   onSave,
+  isLoading
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   const { handleSubmit, control } = useForm({
     defaultValues: {
       question: '',
@@ -42,7 +50,7 @@ export const CreateQuestionCard: FC<CreateQuestionCardProps> = ({
   });
 
   return (
-    <Card>
+    <Card ref={ref}>
       <form onSubmit={handleSubmit(onSave)}>
         <CardHeader>Create Question</CardHeader>
         <CardContent>
@@ -115,7 +123,7 @@ export const CreateQuestionCard: FC<CreateQuestionCardProps> = ({
         </CardContent>
 
         <CardFooter>
-          <Button type="submit">Save</Button>
+          <Button type="submit" disabled={isLoading}>Save</Button>
           <Button onClick={() => onCancel()}>Cancel</Button>
         </CardFooter>
       </form>
