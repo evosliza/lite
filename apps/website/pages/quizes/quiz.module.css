@@ -1,15 +1,15 @@
 .page-container {
-  @apply bg-[url('/assets/images/brain.jpg')] bg-cover bg-center h-full flex flex-col justify-center;
+  @apply bg-[url('/assets/images/brain.jpg')] bg-cover bg-center flex flex-col justify-center h-full w-full p-3;
 }
 
-.quiz-footer {
-  @apply absolute bottom-0 w-full p-2;
+.questions-container {
+  @apply flex flex-col justify-center h-full;
 }
 
 .footer-actions {
   @apply flex justify-end items-center gap-1;
 }
 
-.footer-action {
-  @apply rounded-full;
+.small {
+  @apply text-sm font-thin;
 }

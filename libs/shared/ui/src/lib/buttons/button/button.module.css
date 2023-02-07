@@ -1,3 +1,7 @@
 .button {
-  @apply bg-blue-400 rounded-full text-white px-8 py-2 duration-300;
+  @apply bg-blue-400 rounded-full text-white px-8 py-2 duration-300 flex text-center items-center;
+}
+
+.button[disabled] {
+  @apply bg-slate-400;
 }

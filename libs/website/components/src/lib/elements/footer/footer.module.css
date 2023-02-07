@@ -1,5 +1,5 @@
 .section {
-  @apply bg-gray-800 py-6 border-t-2 border-gray-700 border-dotted w-full absolute bottom-0;
+  @apply bg-gray-800 py-6 border-t-2 border-gray-700 border-dotted w-full;
 }
 
 .container {

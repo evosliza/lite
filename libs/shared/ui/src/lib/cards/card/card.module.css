@@ -7,9 +7,9 @@
 }
 
 .content {
-  @apply mb-3;
+  @apply m-3 flex flex-col justify-center items-center;
 }
 
 .footer {
-  @apply mb-3;
+  @apply mb-3 flex justify-center items-center gap-3;
 }

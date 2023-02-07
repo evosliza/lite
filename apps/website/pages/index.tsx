@@ -1,5 +1,11 @@
 import { useQuizList } from '@lite/website-data-hooks';
-import { Card } from '@lite/shared-ui';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@lite/shared-ui';
 import { MainLayout } from '@lite/website-components';
 
 import styles from './index.module.css';
@@ -17,12 +23,19 @@ export const Index = () => {
         <div className={styles['quiz-list']}>
           {quizList.length ? (
             quizList.map((quiz) => (
-              <Card
-                key={quiz.id}
-                title={quiz.title}
-                description={quiz.description}
-                href={`/quizes/${quiz.id}`}
-              />
+              <Card key={quiz.id}>
+                <CardHeader>{quiz.title}</CardHeader>
+
+                <CardContent>
+                  <p>{quiz.description}</p>
+                </CardContent>
+
+                <CardFooter>
+                  <Button>
+                    <a href={`/quizes/${quiz.id}`}>Get It</a>
+                  </Button>
+                </CardFooter>
+              </Card>
             ))
           ) : (
             <div className={styles['empty-list']}>
