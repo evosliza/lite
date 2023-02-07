@@ -1,5 +1,4 @@
 import { FC, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { useUser } from '@auth0/nextjs-auth0/client';
 

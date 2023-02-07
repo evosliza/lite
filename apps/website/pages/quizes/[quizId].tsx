@@ -10,7 +10,7 @@ import {
 import styles from './quiz.module.css';
 import { Card, CardHeader } from '@lite/shared-ui';
 import {
-  CreateQuestionCard,
+  QuestionFormCard,
   MainLayout,
   QuestionCard,
   QuestionsActions,
@@ -73,7 +73,7 @@ export const QuizPage: FC = () => {
           )}
 
           {showForm && (
-            <CreateQuestionCard
+            <QuestionFormCard
               onCancel={handleCancel}
               onSave={handleSave}
               isLoading={isSavingQuestion}

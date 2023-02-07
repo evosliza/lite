@@ -1,2 +1,2 @@
 export * from './question-card/question-card';
-export * from './create-question-card/create-question-card';
+export * from './question-form-card/question-form-card';

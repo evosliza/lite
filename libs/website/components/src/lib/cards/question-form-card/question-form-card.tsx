@@ -13,18 +13,18 @@ import {
   Input,
 } from '@lite/shared-ui';
 
-import styles from './create-question-card.module.css';
+import styles from './question-form-card.module.css';
 
-interface CreateQuestionCardProps {
+interface QuestionFormCardProps {
   onSave: (data: Partial<Question>) => void;
   onCancel: () => void;
   isLoading?: boolean;
 }
 
-export const CreateQuestionCard: FC<CreateQuestionCardProps> = ({
+export const QuestionFormCard: FC<QuestionFormCardProps> = ({
   onCancel,
   onSave,
-  isLoading
+  isLoading,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -123,7 +123,9 @@ export const CreateQuestionCard: FC<CreateQuestionCardProps> = ({
         </CardContent>
 
         <CardFooter>
-          <Button type="submit" disabled={isLoading}>Save</Button>
+          <Button type="submit" disabled={isLoading}>
+            Save
+          </Button>
           <Button onClick={() => onCancel()}>Cancel</Button>
         </CardFooter>
       </form>
