@@ -1,7 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { useCreateQuestion, useQuestionList } from '@lite/website-data-hooks';
+import {
+  useCreateQuestion,
+  useDeleteQuestion,
+  useQuestionList,
+} from '@lite/website-data-hooks';
 
 import styles from './quiz.module.css';
 import { Card, CardHeader } from '@lite/shared-ui';
@@ -22,6 +26,7 @@ export const QuizPage: FC = () => {
     isLoading: isSavingQuestion,
     isSuccess,
   } = useCreateQuestion();
+  const { deleteQuestion } = useDeleteQuestion();
 
   const [showForm, setShowForm] = useState(false);
   const [activIndex, setActivIndex] = useState(0);
@@ -56,6 +61,9 @@ export const QuizPage: FC = () => {
                 question={question}
                 index={index}
                 isActive={!showForm && activIndex === index}
+                onDelete={() =>
+                  deleteQuestion({ quizId, questionId: question.id })
+                }
               />
             ))
           ) : (

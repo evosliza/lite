@@ -72,6 +72,15 @@ export const CreateQuestionCard: FC<CreateQuestionCardProps> = ({
             )}
           />
 
+          <Button
+            onClick={() => append({ id: genUid(), text: '', score: 0 })}
+            disabled={fields.length >= 4}
+            size="small"
+          >
+            <PlusIcon className="h-4" />
+            <span>Add Answer</span>
+          </Button>
+
           {fields.map((item, index) => {
             return (
               <div key={item.id} className={styles['answer-row']}>
@@ -111,15 +120,6 @@ export const CreateQuestionCard: FC<CreateQuestionCardProps> = ({
               </div>
             );
           })}
-
-          <Button
-            onClick={() => append({ id: genUid(), text: '', score: 0 })}
-            disabled={fields.length >= 4}
-            size="small"
-          >
-            <PlusIcon className="h-4" />
-            <span>Add Answer</span>
-          </Button>
         </CardContent>
 
         <CardFooter>
