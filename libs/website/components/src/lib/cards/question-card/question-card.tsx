@@ -13,6 +13,7 @@ interface QuestionCardProps {
   index: number;
   isActive: boolean;
   onDelete: () => void;
+  onEdit: () => void;
 }
 
 export const QuestionCard: FC<QuestionCardProps> = ({
@@ -20,6 +21,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
   index,
   isActive,
   onDelete,
+  onEdit
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -37,10 +39,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
         {user && (
           <div className={styles['actions']}>
             <Button className={styles['narrow-btn']} variant="naked">
-              <PencilIcon
-                className="h-4"
-                onClick={() => console.log(question.id)}
-              />
+              <PencilIcon className="h-4" onClick={() => onEdit()} />
             </Button>
             <Button className={styles['narrow-btn']} variant="naked">
               <TrashIcon className="h-4" onClick={() => onDelete()} />
@@ -49,14 +48,20 @@ export const QuestionCard: FC<QuestionCardProps> = ({
         )}
 
         <div className={styles['header']}>
-          <h2>
-            {index + 1}.{question.description}
-          </h2>
+          <p className={styles['question']}>
+            <span className={styles['question-number']}>{index + 1}.</span>
+            <span className={styles['question-text']}>{question.question}</span>
+          </p>
+
+          <p className={styles['description']}>{question.description}</p>
         </div>
 
         <div className={styles['answer-list']}>
           {question?.answers.map((answer, index) => (
-            <div>{answer.text}</div>
+            <p className={styles['answer']}>
+              <span className={styles['answer-number']}>{index + 1}.</span>
+              <span className={styles['answer-text']}>{answer.text}</span>
+            </p>
           ))}
         </div>
       </div>

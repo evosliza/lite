@@ -33,12 +33,12 @@ export const useUpdateQuestion = () => {
       return data.data;
     },
     {
-      onSuccess: (newQuestion) => {
+      onSuccess: (updatedQuestion) => {
         queryClient.setQueryData(
           getQuestionListKey(),
           (oldQuestions: Question[] = []) => {
             return oldQuestions.map((question) =>
-              question.id === newQuestion.id ? newQuestion : question
+              question.id === updatedQuestion.id ? updatedQuestion : question
             );
           }
         );

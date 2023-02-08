@@ -1,7 +1,15 @@
-.answer-row{
+.container {
+  @apply flex flex-col items-start justify-center h-full w-full;
+}
+
+.answer-row {
   @apply flex flex-col w-full gap-3;
 }
 
 .score-row {
   @apply flex w-full gap-3;
+}
+
+.form-card-container {
+  @apply flex flex-col justify-center h-full;
 }

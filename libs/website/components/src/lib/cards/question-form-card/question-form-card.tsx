@@ -16,15 +16,17 @@ import {
 import styles from './question-form-card.module.css';
 
 interface QuestionFormCardProps {
-  onSave: (data: Partial<Question>) => void;
-  onCancel: () => void;
   isLoading?: boolean;
+  selectedQuestion?: Question;
+  onCancel: () => void;
+  onSave: (data: Partial<Question>) => void;
 }
 
 export const QuestionFormCard: FC<QuestionFormCardProps> = ({
-  onCancel,
-  onSave,
   isLoading,
+  selectedQuestion,
+  onSave,
+  onCancel,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -33,7 +35,7 @@ export const QuestionFormCard: FC<QuestionFormCardProps> = ({
   }, []);
 
   const { handleSubmit, control } = useForm({
-    defaultValues: {
+    defaultValues: selectedQuestion || {
       question: '',
       description: '',
       answers: [
@@ -50,85 +52,88 @@ export const QuestionFormCard: FC<QuestionFormCardProps> = ({
   });
 
   return (
-    <Card ref={ref}>
-      <form onSubmit={handleSubmit(onSave)}>
-        <CardHeader>Create Question</CardHeader>
-        <CardContent>
-          <Controller
-            name="question"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Input placeholder="Enter Question" {...field} />
-            )}
-          />
+    <div className={styles['form-card-container']}>
+      <Card ref={ref}>
+        <form onSubmit={handleSubmit(onSave)}>
+          <CardHeader>
+            {selectedQuestion ? 'Update' : 'Create'} Question
+          </CardHeader>
+          <CardContent>
+            <Controller
+              name="question"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input placeholder="Enter Question" {...field} />
+              )}
+            />
 
-          <Controller
-            name="description"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Input placeholder="Enter Description" {...field} />
-            )}
-          />
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <Input placeholder="Enter Description" {...field} />
+              )}
+            />
 
-          <Button
-            onClick={() => append({ id: genUid(), text: '', score: 0 })}
-            disabled={fields.length >= 4}
-            size="small"
-          >
-            <PlusIcon className="h-4" />
-            <span>Add Answer</span>
-          </Button>
+            <Button
+              onClick={() => append({ id: genUid(), text: '', score: 0 })}
+              disabled={fields.length >= 4}
+              size="small"
+            >
+              <PlusIcon className="h-4" />
+              <span>Add Answer</span>
+            </Button>
 
-          {fields.map((item, index) => {
-            return (
-              <div key={item.id} className={styles['answer-row']}>
-                <span>Answer {index + 1}</span>
-                <Controller
-                  name={`answers.${index}.text`}
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Input placeholder="Enter Answer" {...field} />
-                  )}
-                />
-
-                <div className={styles['score-row']}>
+            {fields.map((item, index) => {
+              return (
+                <div key={item.id} className={styles['answer-row']}>
+                  <span>Answer {index + 1}</span>
                   <Controller
-                    name={`answers.${index}.score`}
+                    name={`answers.${index}.text`}
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
-                      <Input
-                        placeholder="Enter Score"
-                        {...field}
-                        type="number"
-                      />
+                      <Input placeholder="Enter Answer" {...field} />
                     )}
                   />
 
-                  {fields.length > 2 && (
-                    <Button className={styles['narrow-btn']} variant="naked">
-                      <TrashIcon
-                        className="h-4"
-                        onClick={() => remove(index)}
-                      />
-                    </Button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </CardContent>
+                  <div className={styles['score-row']}>
+                    <Controller
+                      name={`answers.${index}.score`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <Input
+                          placeholder="Enter Score"
+                          {...field}
+                          type="number"
+                        />
+                      )}
+                    />
 
-        <CardFooter>
-          <Button type="submit" disabled={isLoading}>
-            Save
-          </Button>
-          <Button onClick={() => onCancel()}>Cancel</Button>
-        </CardFooter>
-      </form>
-    </Card>
+                    {fields.length > 2 && (
+                      <Button className={styles['narrow-btn']} variant="naked">
+                        <TrashIcon
+                          className="h-4"
+                          onClick={() => remove(index)}
+                        />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </CardContent>
+
+          <CardFooter>
+            <Button type="submit" disabled={isLoading}>
+              Save
+            </Button>
+            <Button onClick={() => onCancel()}>Cancel</Button>
+          </CardFooter>
+        </form>
+      </Card>
+    </div>
   );
 };

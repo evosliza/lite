@@ -5,6 +5,7 @@ import {
   useCreateQuestion,
   useDeleteQuestion,
   useQuestionList,
+  useUpdateQuestion,
 } from '@lite/website-data-hooks';
 
 import styles from './quiz.module.css';
@@ -23,20 +24,27 @@ export const QuizPage: FC = () => {
   const { questionList, isLoading } = useQuestionList(quizId);
   const {
     createQuestion,
-    isLoading: isSavingQuestion,
-    isSuccess,
+    isLoading: isCreatingQuestion,
+    isSuccess: isCreateSuccess,
   } = useCreateQuestion();
+  const {
+    updateQuestion,
+    isLoading: isUpdatingQuestion,
+    isSuccess: isUpdateSuccess,
+  } = useUpdateQuestion();
   const { deleteQuestion } = useDeleteQuestion();
 
   const [showForm, setShowForm] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [activIndex, setActivIndex] = useState(0);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isCreateSuccess || isUpdateSuccess) {
       setShowForm(false);
       setActivIndex(questionList.length - 1);
+      setSelectedQuestion(null);
     }
-  }, [isSuccess, questionList]);
+  }, [isCreateSuccess, isUpdateSuccess, questionList]);
 
   if (isLoading) {
     return <div className={styles['loading']}>Loading...</div>;
@@ -44,10 +52,13 @@ export const QuizPage: FC = () => {
 
   const handleCancel = () => {
     setShowForm(false);
+    setSelectedQuestion(null);
   };
 
-  const handleSave = (ev) => {
-    createQuestion({ quizId, questionData: ev });
+  const handleSave = (formData) => {
+    formData.id
+      ? updateQuestion({ quizId, questionData: formData })
+      : createQuestion({ quizId, questionData: formData });
   };
 
   return (
@@ -64,6 +75,10 @@ export const QuizPage: FC = () => {
                 onDelete={() =>
                   deleteQuestion({ quizId, questionId: question.id })
                 }
+                onEdit={() => {
+                  setShowForm(true);
+                  setSelectedQuestion(question);
+                }}
               />
             ))
           ) : (
@@ -73,10 +88,11 @@ export const QuizPage: FC = () => {
           )}
 
           {showForm && (
-            <QuestionFormCard
+              <QuestionFormCard
+              selectedQuestion={selectedQuestion}
               onCancel={handleCancel}
               onSave={handleSave}
-              isLoading={isSavingQuestion}
+              isLoading={isCreatingQuestion || isUpdatingQuestion}
             />
           )}
         </div>

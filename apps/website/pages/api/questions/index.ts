@@ -43,13 +43,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'PUT') {
+    const { id, ...data } = req.body;
     const updatedQuestion = await prismaClient.question.update({
       where: {
-        id: req.body.id,
+        id,
       },
-      data: {
-        ...req.body,
-      },
+      data,
     });
 
     cors()(req, res, () =>

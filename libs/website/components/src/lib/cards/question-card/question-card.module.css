@@ -9,3 +9,19 @@
 .actions {
   @apply flex flex-row justify-end absolute top-0 right-0;
 }
+
+.question {
+  @apply text-gray-800 mx-3 my-2 text-2xl;
+}
+
+.question-number, .answer-number {
+  @apply mx-1;
+}
+
+.description {
+  @apply text-gray-700 mx-2 my-1 text-base italic;
+}
+
+.answer {
+  @apply text-gray-800 mx-3 my-2 text-lg rounded-sm border-blue-500 border-dashed border p-1 cursor-pointer;
+}
