@@ -6,7 +6,7 @@ import styles from './button.module.css';
 /* eslint-disable-next-line */
 export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   variant?: 'primary' | 'naked';
-  size?: 'primary' | 'small';
+  size?: 'primary' | 'small' | 'large';
 }
 
 export const Button: FC<ButtonProps> = ({

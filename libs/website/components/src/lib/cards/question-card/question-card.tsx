@@ -1,12 +1,13 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import { Question } from '@prisma/client';
+import { Answer, Question } from '@prisma/client';
 
 import { Button } from '@lite/shared-ui';
 
 import styles from './question-card.module.css';
+import { AnswerRow } from '../../elements/answer-row/answer-row';
 
 interface QuestionCardProps {
   question: Question;
@@ -14,6 +15,7 @@ interface QuestionCardProps {
   isActive: boolean;
   onDelete: () => void;
   onEdit: () => void;
+  onAnswerSelect: (answer: Answer, oldAnswer: Answer | null) => void;
 }
 
 export const QuestionCard: FC<QuestionCardProps> = ({
@@ -21,17 +23,25 @@ export const QuestionCard: FC<QuestionCardProps> = ({
   index,
   isActive,
   onDelete,
-  onEdit
+  onEdit,
+  onAnswerSelect,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const { user } = useUser();
+  const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
 
   useEffect(() => {
     if (isActive) {
       ref.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [isActive]);
+
+  const handleAnswerSelect = (answer: Answer) => {
+    setSelectedAnswer(answer);
+
+    onAnswerSelect(answer, selectedAnswer);
+  };
 
   return (
     <div className={styles['container']} ref={ref}>
@@ -47,10 +57,9 @@ export const QuestionCard: FC<QuestionCardProps> = ({
           </div>
         )}
 
-        <div className={styles['header']}>
+        <div className={styles['content']}>
           <p className={styles['question']}>
-            <span className={styles['question-number']}>{index + 1}.</span>
-            <span className={styles['question-text']}>{question.question}</span>
+            {index + 1}.{question.question}
           </p>
 
           <p className={styles['description']}>{question.description}</p>
@@ -58,10 +67,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({
 
         <div className={styles['answer-list']}>
           {question?.answers.map((answer, index) => (
-            <p className={styles['answer']}>
-              <span className={styles['answer-number']}>{index + 1}.</span>
-              <span className={styles['answer-text']}>{answer.text}</span>
-            </p>
+            <AnswerRow
+              isSelected={answer.id === selectedAnswer?.id}
+              answer={answer}
+              index={index}
+              key={answer.id}
+              onAnswerSelect={handleAnswerSelect}
+            />
           ))}
         </div>
       </div>

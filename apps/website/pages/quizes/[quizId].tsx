@@ -15,7 +15,9 @@ import {
   MainLayout,
   QuestionCard,
   QuestionsActions,
+  FinishCard,
 } from '@lite/website-components';
+import { Answer, Question } from '@prisma/client';
 
 export const QuizPage: FC = () => {
   const router = useRouter();
@@ -35,8 +37,13 @@ export const QuizPage: FC = () => {
   const { deleteQuestion } = useDeleteQuestion();
 
   const [showForm, setShowForm] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
+
+  const [selectedQuestion, setSelectedQuestion] = useState<Question>(null);
   const [activIndex, setActivIndex] = useState(0);
+
+  const [selectedAnswers, setSelectedAnswers] = useState<Answer[]>([]);
+
+  const canFinish = selectedAnswers.length === questionList?.length;
 
   useEffect(() => {
     if (isCreateSuccess || isUpdateSuccess) {
@@ -45,10 +52,6 @@ export const QuizPage: FC = () => {
       setSelectedQuestion(null);
     }
   }, [isCreateSuccess, isUpdateSuccess, questionList]);
-
-  if (isLoading) {
-    return <div className={styles['loading']}>Loading...</div>;
-  }
 
   const handleCancel = () => {
     setShowForm(false);
@@ -59,6 +62,20 @@ export const QuizPage: FC = () => {
     formData.id
       ? updateQuestion({ quizId, questionData: formData })
       : createQuestion({ quizId, questionData: formData });
+  };
+
+  if (isLoading) {
+    return <div className={styles['loading']}>Loading...</div>;
+  }
+
+  const handleAnswerSelect = (answer: Answer, oldAnswer: Answer | null) => {
+    const newSelectedAnswers = selectedAnswers.filter(
+      (a) => a.id !== oldAnswer?.id
+    );
+
+    setSelectedAnswers([...newSelectedAnswers, answer]);
+
+    setActivIndex(activIndex + 1);
   };
 
   return (
@@ -79,6 +96,7 @@ export const QuizPage: FC = () => {
                   setShowForm(true);
                   setSelectedQuestion(question);
                 }}
+                onAnswerSelect={handleAnswerSelect}
               />
             ))
           ) : (
@@ -87,8 +105,10 @@ export const QuizPage: FC = () => {
             </Card>
           )}
 
+          {canFinish && <FinishCard selectedAnswers={selectedAnswers} />}
+
           {showForm && (
-              <QuestionFormCard
+            <QuestionFormCard
               selectedQuestion={selectedQuestion}
               onCancel={handleCancel}
               onSave={handleSave}
@@ -99,10 +119,10 @@ export const QuizPage: FC = () => {
 
         <QuestionsActions
           showForm={showForm}
-          setShowForm={setShowForm}
           activIndex={activIndex}
-          setActivIndex={setActivIndex}
           questionListLength={questionList.length}
+          setShowForm={setShowForm}
+          setActivIndex={setActivIndex}
         />
       </div>
     </MainLayout>

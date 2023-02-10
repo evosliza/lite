@@ -1,0 +1,11 @@
+.answer {
+  @apply text-gray-800 mx-3 my-2 text-lg rounded-sm border-blue-500 border-dashed border p-1 cursor-pointer;
+}
+
+.answer-number {
+  @apply mx-1;
+}
+
+.is-selected {
+  @apply bg-blue-500 text-white bg-opacity-50;
+}

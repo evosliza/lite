@@ -17,3 +17,7 @@
 .size-small {
   @apply text-sm font-thin;
 }
+
+.size-large {
+  @apply text-xl font-bold;
+}

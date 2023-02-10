@@ -14,6 +14,12 @@ type Answer {
   score     Int
 }
 
+type Result {
+  percentage  Int
+  result      String
+  description String
+}
+
 model Quiz {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime  @default(now())
@@ -21,6 +27,7 @@ model Quiz {
 
   title       String
   description String?
+  results     Result[]
 
   questions Question[] @relation("QuizQuestions")
 
