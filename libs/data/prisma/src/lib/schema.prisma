@@ -25,6 +25,8 @@ model Quiz {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
+  ownerId String @db.ObjectId
+
   title       String
   description String?
   results     Result[]
