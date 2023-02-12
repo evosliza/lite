@@ -1,23 +1,41 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { Answer, Result } from '@prisma/client';
 
 import { Button, Card, CardContent, CardHeader } from '@lite/shared-ui';
-import { Answer } from '@prisma/client';
+import { useGetQuizById } from '@lite/website-data-hooks';
 
 import styles from './finish-card.module.css';
 
 interface FinishCardProps {
   selectedAnswers: Answer[];
+  questionsCount: number;
 }
 
-export const FinishCard: FC<FinishCardProps> = ({ selectedAnswers }) => {
+export const FinishCard: FC<FinishCardProps> = ({
+  selectedAnswers,
+  questionsCount,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const [result, setResult] = useState<Result>();
+
+  const router = useRouter();
+  const { quizId } = router.query as { quizId: string };
+
+  const { quiz } = useGetQuizById({ quizId });
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   const handleFinish = () => {
-    console.log(selectedAnswers);
+    const scoreSum = selectedAnswers.reduce((sum, { score }) => sum + score, 0);
+    const currentResult = quiz?.results.find(
+      ({ percentage }) => scoreSum / questionsCount <= percentage
+    );
+
+    setResult(currentResult);
   };
 
   return (
@@ -27,16 +45,21 @@ export const FinishCard: FC<FinishCardProps> = ({ selectedAnswers }) => {
     >
       <Card>
         <CardHeader>
-          You have answerd all the questions. Click finish to see your results.
+          {result
+            ? result.text
+            : 'You have answerd all the questions. Click finish to see your results.'}
         </CardHeader>
 
         <CardContent>
+          {result && <p>{result.description}</p>}
+
           <Button
             size="large"
             className={styles['finish-btn']}
             onClick={handleFinish}
           >
-            <span>Finish</span>
+            {/* add retake quiz button */}
+            {result ? <a href="/">See other quizes</a> : <span>Finish</span>}
           </Button>
         </CardContent>
       </Card>

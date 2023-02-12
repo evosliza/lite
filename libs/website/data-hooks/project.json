@@ -11,6 +11,26 @@
       "options": {
         "lintFilePatterns": ["libs/website/data-hooks/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/website/data-hooks",
+        "tsConfig": "libs/website/data-hooks/tsconfig.lib.json",
+        "project": "libs/website/data-hooks/package.json",
+        "entryFile": "libs/website/data-hooks/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "babel",
+        "assets": [
+          {
+            "glob": "libs/website/data-hooks/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
     }
   }
 }

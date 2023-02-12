@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useRouter } from 'next/router';
 import {
   ArrowDownIcon,
   ArrowLeftIcon,
@@ -7,13 +8,13 @@ import {
 } from '@heroicons/react/24/solid';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Button } from '@lite/shared-ui';
+import { useQuestionList } from '@lite/website-data-hooks';
 
 import styles from './questions-actions.module.css';
 
 interface QuestionsActionsProps {
   showForm: boolean;
   activIndex: number;
-  questionListLength: number;
   setActivIndex: (value: number) => void;
   setShowForm: (value: boolean) => void;
 }
@@ -21,10 +22,13 @@ interface QuestionsActionsProps {
 export const QuestionsActions: FC<QuestionsActionsProps> = ({
   showForm,
   activIndex,
-  questionListLength,
   setActivIndex,
   setShowForm,
 }) => {
+  const router = useRouter();
+  const { quizId } = router.query as { quizId: string };
+
+  const { questionList } = useQuestionList(quizId);
   const { user } = useUser();
 
   return (
@@ -56,7 +60,7 @@ export const QuestionsActions: FC<QuestionsActionsProps> = ({
 
       <Button
         onClick={() => setActivIndex(activIndex + 1)}
-        disabled={showForm || activIndex === questionListLength - 1}
+        disabled={showForm || activIndex === questionList.length - 1}
       >
         <ArrowDownIcon className="h-4" />
       </Button>

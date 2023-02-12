@@ -16,7 +16,7 @@ type Answer {
 
 type Result {
   percentage  Int
-  result      String
+  text      String
   description String
 }
 

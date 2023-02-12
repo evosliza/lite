@@ -105,7 +105,7 @@ export const QuizPage: FC = () => {
             </Card>
           )}
 
-          {canFinish && <FinishCard selectedAnswers={selectedAnswers} />}
+          {canFinish && <FinishCard selectedAnswers={selectedAnswers} questionsCount={questionList.length} />}
 
           {showForm && (
             <QuestionFormCard
@@ -120,7 +120,6 @@ export const QuizPage: FC = () => {
         <QuestionsActions
           showForm={showForm}
           activIndex={activIndex}
-          questionListLength={questionList.length}
           setShowForm={setShowForm}
           setActivIndex={setActivIndex}
         />
