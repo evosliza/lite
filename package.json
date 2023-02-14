@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start:website": "nx serve website",
+    "build:website": "nx build website",
     "generate:prisma-assets": "nx generate-assets data-prisma",
     "postinstall": "yarn generate:prisma-assets"
   },

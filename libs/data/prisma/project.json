@@ -21,10 +21,17 @@
         "outputPath": "dist/libs/data/prisma",
         "main": "libs/data/prisma/src/index.ts",
         "tsConfig": "libs/data/prisma/tsconfig.lib.json",
+        "project": "libs/data/prisma/package.json",
+        "entryFile": "libs/data/prisma/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "babel",
         "assets": [
-          "libs/data/prisma/*.md",
-          "libs/data/prisma/src/lib/generated/**/*",
-          "libs/data/prisma/src/lib/**/*.prisma"
+          {
+            "glob": "libs/data/prisma/*.md",
+            "input": ".",
+            "output": "."
+          }
         ]
       }
     },
