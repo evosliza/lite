@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { Answer, Question } from '@prisma/client';
 
 import {
   useCreateQuestion,
@@ -7,8 +8,6 @@ import {
   useQuestionList,
   useUpdateQuestion,
 } from '@lite/website-data-hooks';
-
-import styles from './quiz.module.css';
 import { Card, CardHeader } from '@lite/shared-ui';
 import {
   QuestionFormCard,
@@ -17,7 +16,8 @@ import {
   QuestionsActions,
   FinishCard,
 } from '@lite/website-components';
-import { Answer, Question } from '@prisma/client';
+
+import styles from './quiz.module.css';
 
 export const QuizPage: FC = () => {
   const router = useRouter();
@@ -27,41 +27,33 @@ export const QuizPage: FC = () => {
   const {
     createQuestion,
     isLoading: isCreatingQuestion,
-    isSuccess: isCreateSuccess,
+    isSuccess: isCreateSuccessful,
   } = useCreateQuestion();
   const {
     updateQuestion,
     isLoading: isUpdatingQuestion,
-    isSuccess: isUpdateSuccess,
+    isSuccess: isUpdateSuccessful,
   } = useUpdateQuestion();
   const { deleteQuestion } = useDeleteQuestion();
 
   const [showForm, setShowForm] = useState(false);
-
-  const [selectedQuestion, setSelectedQuestion] = useState<Question>(null);
   const [activIndex, setActivIndex] = useState(0);
-
+  const [selectedQuestion, setSelectedQuestion] = useState<Question>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Answer[]>([]);
 
   const canFinish = selectedAnswers.length === questionList?.length;
 
   useEffect(() => {
-    if (isCreateSuccess || isUpdateSuccess) {
+    if (isCreateSuccessful || isUpdateSuccessful) {
       setShowForm(false);
       setActivIndex(questionList.length - 1);
       setSelectedQuestion(null);
     }
-  }, [isCreateSuccess, isUpdateSuccess, questionList]);
+  }, [isCreateSuccessful, isUpdateSuccessful, questionList]);
 
   const handleCancel = () => {
     setShowForm(false);
     setSelectedQuestion(null);
-  };
-
-  const handleSave = (formData) => {
-    formData.id
-      ? updateQuestion({ quizId, questionData: formData })
-      : createQuestion({ quizId, questionData: formData });
   };
 
   if (isLoading) {
@@ -70,32 +62,41 @@ export const QuizPage: FC = () => {
 
   const handleAnswerSelect = (answer: Answer, oldAnswer: Answer | null) => {
     const newSelectedAnswers = selectedAnswers.filter(
-      (a) => a.id !== oldAnswer?.id
+      ({ id }) => id !== oldAnswer?.id
     );
 
     setSelectedAnswers([...newSelectedAnswers, answer]);
-
     setActivIndex(activIndex + 1);
+  };
+
+  const handleEdit = (question: Question) => {
+    setSelectedQuestion(question);
+    setShowForm(true);
+  };
+
+  const handleDelete = (questionId: string) => {
+    deleteQuestion({ quizId, questionId });
+  };
+
+  const handleSave = (formData: Partial<Question>) => {
+    formData.id
+      ? updateQuestion({ quizId, questionData: formData })
+      : createQuestion({ quizId, questionData: formData });
   };
 
   return (
     <MainLayout>
       <div className={styles['page-container']}>
         <div className={styles['questions-container']}>
-          {questionList.length ? (
+          {questionList?.length ? (
             questionList.map((question, index) => (
               <QuestionCard
                 key={question.id}
                 question={question}
                 index={index}
                 isActive={!showForm && activIndex === index}
-                onDelete={() =>
-                  deleteQuestion({ quizId, questionId: question.id })
-                }
-                onEdit={() => {
-                  setShowForm(true);
-                  setSelectedQuestion(question);
-                }}
+                onDelete={() => handleDelete(question.id)}
+                onEdit={() => handleEdit(question)}
                 onAnswerSelect={handleAnswerSelect}
               />
             ))
@@ -105,7 +106,12 @@ export const QuizPage: FC = () => {
             </Card>
           )}
 
-          {canFinish && <FinishCard selectedAnswers={selectedAnswers} questionsCount={questionList.length} />}
+          {canFinish && (
+            <FinishCard
+              selectedAnswers={selectedAnswers}
+              questionsCount={questionList.length}
+            />
+          )}
 
           {showForm && (
             <QuestionFormCard

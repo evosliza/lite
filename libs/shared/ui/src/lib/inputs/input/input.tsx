@@ -5,26 +5,31 @@ import styles from './input.module.css';
 
 /* eslint-disable-next-line */
 export interface InputProps
-  extends Omit<ComponentPropsWithoutRef<'input'>, 'onChange'> {
-  onChange?: (value: string | number) => void;
+  extends Omit<ComponentPropsWithoutRef<'input'>, 'onChange' | 'value'> {
+  onChange?: (value: string | number | null) => void;
+  value?: string | number | null;
 }
 
 export const Input: FC<InputProps> = ({
   className,
   type = 'text',
   onChange,
+  value,
   ...otherProps
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
-      onChange(type === 'number' ? Number(e.target.value) : e.target.value);
+      const value = e.target.value.trim();
+      onChange(type === 'number' && value ? Number(value) : value);
     }
   };
 
   return (
-    <div className="w-full sm:w-1/2 md:w-full lg:w-1/2">
+    <div className={styles['input-container']}>
       <div className="mx-3">
         <input
+          type={type}
+          value={value ?? ''}
           className={clsx(styles['input'], className)}
           onChange={handleChange}
           {...otherProps}

@@ -3,13 +3,25 @@
 }
 
 .answer-row {
-  @apply flex flex-col w-full gap-3;
+  @apply flex flex-col w-full gap-2;
 }
 
 .score-row {
-  @apply flex w-full gap-3;
+  @apply flex w-full gap-2;
 }
 
 .form-card-container {
   @apply flex flex-col justify-center h-full;
+}
+
+.form-card {
+  @apply max-h-[90%] overflow-x-auto;
+}
+
+.form-card-header {
+  @apply sticky top-0 z-10;
+}
+
+.form-card-footer {
+  @apply sticky bottom-0 z-10;
 }

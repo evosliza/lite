@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { Quiz } from '@prisma/client';
 import {
   Button,
   Card,
@@ -7,8 +8,6 @@ import {
   CardFooter,
   CardHeader,
 } from '@lite/shared-ui';
-
-import { Quiz } from '@lite/shared-types';
 
 interface QuizCardProps {
   quiz: Quiz;

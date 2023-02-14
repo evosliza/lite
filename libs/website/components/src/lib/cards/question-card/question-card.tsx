@@ -1,13 +1,15 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { Answer, Question } from '@prisma/client';
 
 import { Button } from '@lite/shared-ui';
+import { useGetQuizById } from '@lite/website-data-hooks';
+import { AnswerRow } from '../../elements';
 
 import styles from './question-card.module.css';
-import { AnswerRow } from '../../elements/answer-row/answer-row';
 
 interface QuestionCardProps {
   question: Question;
@@ -28,8 +30,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
+  const router = useRouter();
+  const { quizId } = router.query as { quizId: string };
+  const { quiz } = useGetQuizById({ quizId });
+
   const { user } = useUser();
   const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
+  const canManage = user && user.sub === quiz?.ownerId;
 
   useEffect(() => {
     if (isActive) {
@@ -46,7 +53,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
   return (
     <div className={styles['container']} ref={ref}>
       <div className={styles['card']}>
-        {user && (
+        {canManage && (
           <div className={styles['actions']}>
             <Button className={styles['narrow-btn']} variant="naked">
               <PencilIcon className="h-4" onClick={() => onEdit()} />

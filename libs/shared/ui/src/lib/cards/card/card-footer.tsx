@@ -1,10 +1,16 @@
-import { FC, PropsWithChildren } from 'react';
+import clsx from 'clsx';
+import { FC } from 'react';
 
 import styles from './card.module.css';
 
-export const CardFooter: FC<PropsWithChildren> = ({ children }) => {
+export interface CardFooterProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+export const CardFooter: FC<CardFooterProps> = ({ className, children }) => {
   return (
-    <div className={styles['footer']}>
+    <div className={clsx(styles['footer'], className)}>
       {children}
     </div>
   );

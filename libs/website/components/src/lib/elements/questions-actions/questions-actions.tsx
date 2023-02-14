@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Button } from '@lite/shared-ui';
-import { useQuestionList } from '@lite/website-data-hooks';
+import { useGetQuizById, useQuestionList } from '@lite/website-data-hooks';
 
 import styles from './questions-actions.module.css';
 
@@ -28,8 +28,15 @@ export const QuestionsActions: FC<QuestionsActionsProps> = ({
   const router = useRouter();
   const { quizId } = router.query as { quizId: string };
 
-  const { questionList } = useQuestionList(quizId);
   const { user } = useUser();
+  const { quiz } = useGetQuizById({ quizId });
+  const { questionList } = useQuestionList(quizId);
+
+  const canManage = user && user.sub === quiz?.ownerId;
+
+  const hadlePrevNext = (index: number) => {
+    setActivIndex(index);
+  };
 
   return (
     <div className={styles['quiz-actions']}>
@@ -40,7 +47,7 @@ export const QuestionsActions: FC<QuestionsActionsProps> = ({
         </Button>
       </a>
 
-      {user && (
+      {canManage && (
         <Button
           size="small"
           onClick={() => setShowForm(true)}
@@ -52,14 +59,14 @@ export const QuestionsActions: FC<QuestionsActionsProps> = ({
       )}
 
       <Button
-        onClick={() => setActivIndex(activIndex - 1)}
+        onClick={() => hadlePrevNext(activIndex - 1)}
         disabled={showForm || activIndex === 0}
       >
         <ArrowUpIcon className="h-4" />
       </Button>
 
       <Button
-        onClick={() => setActivIndex(activIndex + 1)}
+        onClick={() => hadlePrevNext(activIndex + 1)}
         disabled={showForm || activIndex === questionList.length - 1}
       >
         <ArrowDownIcon className="h-4" />

@@ -53,11 +53,12 @@ export const QuestionFormCard: FC<QuestionFormCardProps> = ({
 
   return (
     <div className={styles['form-card-container']}>
-      <Card ref={ref}>
+      <Card className={styles['form-card']} ref={ref}>
         <form onSubmit={handleSubmit(onSave)}>
-          <CardHeader>
+          <CardHeader className={styles['form-card-header']}>
             {selectedQuestion ? 'Update' : 'Create'} Question
           </CardHeader>
+
           <CardContent>
             <Controller
               name="question"
@@ -106,6 +107,8 @@ export const QuestionFormCard: FC<QuestionFormCardProps> = ({
                       render={({ field }) => (
                         <Input
                           placeholder="Enter Score"
+                          min={0}
+                          max={100}
                           {...field}
                           type="number"
                         />
@@ -126,10 +129,11 @@ export const QuestionFormCard: FC<QuestionFormCardProps> = ({
             })}
           </CardContent>
 
-          <CardFooter>
+          <CardFooter className={styles['form-card-footer']}>
             <Button type="submit" disabled={isLoading}>
               Save
             </Button>
+
             <Button onClick={() => onCancel()}>Cancel</Button>
           </CardFooter>
         </form>
